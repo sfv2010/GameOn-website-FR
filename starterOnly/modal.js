@@ -22,7 +22,7 @@ function launchModal() {
   modalbg.style.display = "block";
 }
 
-//----fermer la modale
+//----fermer la modale avec close
 closeBtn.addEventListener("click", () => {
   modalbg.style.display = "none";
 });
@@ -32,7 +32,6 @@ closeBtn.addEventListener("click", () => {
 function validate() {
   const validationForm = document.querySelector(".validationForm");
   if (validationForm) {
-    // DOM Elements
     const firstElem = document.getElementById("first");
     const lastElem = document.getElementById("last");
     const emailElem = document.getElementById("email");
@@ -48,16 +47,15 @@ function validate() {
       //ajouter class pour error
       errorSpan.classList.add("error");
       //aria-live 属性を設定
-      errorSpan.setAttribute("data-error-visible", "true");
+      errorSpan.setAttribute("aria-live", "polite");
       //message error
       errorSpan.textContent = errorMessage;
-      //add elem
+      // ajouter à l'élément parent
       elem.parentNode.appendChild(errorSpan);
     };
 
     validationForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      //Récupérer tous les éléments qui affichent des erreurs et les supprimer
+      //Récupérer tous les éléments qui affichent des erreurs et les supprimer après chaque soumission
       const errorElems = validationForm.querySelectorAll(".error ");
       errorElems.forEach((elem) => {
         elem.remove();
@@ -65,18 +63,19 @@ function validate() {
 
       //---------Validation name---------
       const firstValue = firstElem.value.trim();
-      if (firstElem.value === "" || firstValue.length <= 2) {
+      if (firstValue.length <= 2) {
         createError(
           firstElem,
           "Veuillez entrer 2 caractères ou plus pour le champ du Prénom."
         );
         firstElem.classList.add("inputError");
+        e.preventDefault();
       } else {
         firstElem.classList.remove("inputError");
       }
 
       const lastValue = lastElem.value.trim();
-      if (lastElem.value === "" || lastValue.length <= 2) {
+      if (lastValue.length <= 2) {
         createError(
           lastElem,
           "Veuillez entrer 2 caractères ou plus pour le champ du Nom."
@@ -92,6 +91,7 @@ function validate() {
       if (emailElem.value === "" || !pattern.test(emailElem.value)) {
         createError(emailElem, "Veuillez entrer une adresse mail valide.");
         emailElem.classList.add("inputError");
+        e.preventDefault();
       } else {
         emailElem.classList.remove("inputError");
       }
@@ -100,6 +100,7 @@ function validate() {
       if (birthdateElem.value === "") {
         createError(birthdateElem, "Veuillez entrer une date de naissance.");
         birthdateElem.classList.add("inputError");
+        e.preventDefault();
       } else {
         birthdateElem.classList.remove("inputError");
       }
@@ -110,6 +111,7 @@ function validate() {
       ) {
         createError(quantityElem, "Veuillez entrer un chiffre.");
         quantityElem.classList.add("inputError");
+        e.preventDefault();
       } else {
         quantityElem.classList.remove("inputError");
       }
@@ -117,11 +119,11 @@ function validate() {
       //---------Validation checkBox-----------
       checkBoxElem.forEach((elem) => {
         if (elem.getAttribute("type") === "radio") {
-          console.log(checkBoxElem);
+          // Récupère le premier élément de case à cocher sélectionné en fonction de l'élément parent
           const checked = elem.parentElement.querySelector(
             'input[type="radio"]:checked'
           );
-          console.log(checked);
+          //console.log(elem.parentElement);
           if (checked === null) {
             createError(elem, "Veuillez sélectionner un choix.");
             e.preventDefault();
@@ -135,21 +137,48 @@ function validate() {
               elem,
               "Vous devez vérifier que vous acceptez les termes et conditions."
             );
+            e.preventDefault();
           }
         }
       });
-      // let checkCount = 0;
-      // for (let i = 0; i < checkBoxElem.length; i++) {
-      //   if (checkBoxElem[i].checked === true) {
-      //     checkCount++;
-      //   }
-      // }
-      // if (checkCount === 0) {
-      //   createError(checkBoxElem, "Veuillez sélectionner un choix.");
-      // }
     });
   }
 }
-
 const validForm = document.querySelector(".validationForm");
 validForm.addEventListener("click", validate);
+
+//---------modal confirmation-----------
+//lancement de l'event modal confirmation
+
+submit.addEventListener("click", launchModalConfirmation);
+
+function launchModalConfirmation() {
+  modalbg.style.display = "block";
+  const modalbody = document.querySelector(".modal-body");
+  modalbody.style.display = "none";
+
+  const modalContent = document.querySelector(".content");
+  const modalConfirmation = document.createElement("div");
+  modalConfirmation.classList.add("confirmation");
+  const confirmationP = document.createElement("p");
+  confirmationP.classList.add("confirmationP");
+  confirmationP.innerHTML = "Merci pour <br> votre inscription";
+  const confirmationButton = document.createElement("button");
+  confirmationButton.classList.add(
+    "confirmationButton",
+    "button",
+    "btn-submit"
+  );
+  confirmationButton.textContent = "Fermer";
+
+  modalContent.appendChild(modalConfirmation);
+  modalConfirmation.appendChild(confirmationP);
+  modalConfirmation.appendChild(confirmationButton);
+
+  const closeModalConfirmation = document.querySelector(".confirmation");
+
+  closeModalConfirmation.addEventListener("click", () => {
+    modalbg.style.display = "none";
+    window.location.reload();
+  });
+}
