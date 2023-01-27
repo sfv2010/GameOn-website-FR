@@ -463,6 +463,24 @@ footer {
 .fa {
   color: #ff001b;
 }
+.confirmation {
+  position: relative;
+  height: 90vh;
+  text-align: center;
+}
+.confirmationP {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  transform: translateY(-50%);
+  font-size: 2rem;
+}
+.confirmationButton {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 @media screen and (max-width: 1000px) {
   .hero-headline {
     font-size: 4rem;
