@@ -32,15 +32,15 @@ closeBtn.addEventListener("click", () => {
 function validate() {
   const validationForm = document.querySelector(".validationForm");
   if (validationForm) {
-    const textControlElems = document.querySelectorAll(".text-control");
+    // DOM Elements
     const firstElem = document.getElementById("first");
     const lastElem = document.getElementById("last");
     const emailElem = document.getElementById("email");
     const birthdateElem = document.getElementById("birthdate");
     const quantityElem = document.getElementById("quantity");
-    // const selectElem = document.getElementById("select");
+    const checkBoxElem = document.querySelectorAll(".required");
 
-    // console.log(selectElem);
+    //console.log(checkBoxElem);
 
     const createError = (elem, errorMessage) => {
       //span element
@@ -53,10 +53,6 @@ function validate() {
       errorSpan.textContent = errorMessage;
       //add elem
       elem.parentNode.appendChild(errorSpan);
-
-      // textControlElems.forEach((elem) => {
-      //   elem.classList.add("inputError");
-      // });
     };
 
     validationForm.addEventListener("submit", (e) => {
@@ -67,6 +63,7 @@ function validate() {
         elem.remove();
       });
 
+      //---------Validation name---------
       const firstValue = firstElem.value.trim();
       if (firstElem.value === "" || firstValue.length <= 2) {
         createError(
@@ -88,9 +85,9 @@ function validate() {
       } else {
         lastElem.classList.remove("inputError");
       }
-      //Validation email
+      //---------Validation email---------
       const pattern =
-        /^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/iu;
+        /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
       //test() affichez une erreur et arrêtez de soumettre le formulaire
       if (emailElem.value === "" || !pattern.test(emailElem.value)) {
         createError(emailElem, "Veuillez entrer une adresse mail valide.");
@@ -99,23 +96,56 @@ function validate() {
         emailElem.classList.remove("inputError");
       }
 
-      //Validation date de naissance
+      //---------Validation date de naissance---------
       if (birthdateElem.value === "") {
         createError(birthdateElem, "Veuillez entrer une date de naissance.");
         birthdateElem.classList.add("inputError");
       } else {
         birthdateElem.classList.remove("inputError");
       }
-
-      if (quantityElem.value === "") {
+      const patternNumber = /^[0-9]+$/;
+      if (
+        quantityElem.value === "" ||
+        !patternNumber.test(quantityElem.value)
+      ) {
         createError(quantityElem, "Veuillez entrer un chiffre.");
         quantityElem.classList.add("inputError");
       } else {
         quantityElem.classList.remove("inputError");
       }
 
-      // if (selectElem.value === "") {
-      //   createError(selectElem, "Veuillez sélectionner un choix.");
+      //---------Validation checkBox-----------
+      checkBoxElem.forEach((elem) => {
+        if (elem.getAttribute("type") === "radio") {
+          console.log(checkBoxElem);
+          const checked = elem.parentElement.querySelector(
+            'input[type="radio"]:checked'
+          );
+          console.log(checked);
+          if (checked === null) {
+            createError(elem, "Veuillez sélectionner un choix.");
+            e.preventDefault();
+          }
+        } else if (elem.getAttribute("id") === "checkbox1") {
+          const checkedBox2 = elem.parentElement.querySelector(
+            'input[id="checkbox1"]:checked'
+          );
+          if (checkedBox2 === null) {
+            createError(
+              elem,
+              "Vous devez vérifier que vous acceptez les termes et conditions."
+            );
+          }
+        }
+      });
+      // let checkCount = 0;
+      // for (let i = 0; i < checkBoxElem.length; i++) {
+      //   if (checkBoxElem[i].checked === true) {
+      //     checkCount++;
+      //   }
+      // }
+      // if (checkCount === 0) {
+      //   createError(checkBoxElem, "Veuillez sélectionner un choix.");
       // }
     });
   }
