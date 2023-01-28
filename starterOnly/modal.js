@@ -81,6 +81,7 @@ function validate() {
           "Veuillez entrer 2 caractères ou plus pour le champ du Nom."
         );
         lastElem.classList.add("inputError");
+        e.preventDefault();
       } else {
         lastElem.classList.remove("inputError");
       }
@@ -141,44 +142,87 @@ function validate() {
           }
         }
       });
+
+      //---------modal confirmation-----------
+      //lancement de l'event modal confirmation
+      const modalContent = document.querySelector(".content");
+      const modalConfirmation = document.createElement("div");
+      modalConfirmation.classList.add("confirmation");
+      const confirmationP = document.createElement("p");
+      confirmationP.classList.add("confirmationP");
+      confirmationP.innerHTML = "Merci pour <br> votre inscription";
+      const confirmationButton = document.createElement("button");
+      confirmationButton.classList.add(
+        "confirmationButton",
+        "button",
+        "btn-submit"
+      );
+      confirmationButton.textContent = "Fermer";
+
+      modalContent.appendChild(modalConfirmation);
+      modalConfirmation.appendChild(confirmationP);
+      modalConfirmation.appendChild(confirmationButton);
+
+      const closeModalConfirmation = document.querySelector(".confirmation");
+
+      closeModalConfirmation.addEventListener("click", () => {
+        modalbg.style.display = "none";
+        window.location.reload();
+      });
+
+      const isRequired = validationForm.checkValidity();
+      console.log(isRequired);
+      if (isRequired === false) {
+        document.querySelector(".modal-body").style.display = "block";
+        modalConfirmation.remove("div", "p");
+        //document.querySelector(".confirmation").style.display = "none";
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      } else {
+        document.querySelector(".modal-body").style.display = "none";
+        document.querySelector(".confirmation").style.display = "block";
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
     });
   }
 }
+
 const validForm = document.querySelector(".validationForm");
 validForm.addEventListener("click", validate);
 
 //---------modal confirmation-----------
 //lancement de l'event modal confirmation
 
-submit.addEventListener("click", launchModalConfirmation);
+// submit.addEventListener("click", launchModalConfirmation);
 
-function launchModalConfirmation() {
-  modalbg.style.display = "block";
-  const modalbody = document.querySelector(".modal-body");
-  modalbody.style.display = "none";
+// function launchModalConfirmation() {
+//   modalbg.style.display = "block";
+//   const modalbody = document.querySelector(".modal-body");
+//   modalbody.style.display = "none";
 
-  const modalContent = document.querySelector(".content");
-  const modalConfirmation = document.createElement("div");
-  modalConfirmation.classList.add("confirmation");
-  const confirmationP = document.createElement("p");
-  confirmationP.classList.add("confirmationP");
-  confirmationP.innerHTML = "Merci pour <br> votre inscription";
-  const confirmationButton = document.createElement("button");
-  confirmationButton.classList.add(
-    "confirmationButton",
-    "button",
-    "btn-submit"
-  );
-  confirmationButton.textContent = "Fermer";
+//   const modalContent = document.querySelector(".content");
+//   const modalConfirmation = document.createElement("div");
+//   modalConfirmation.classList.add("confirmation");
+//   const confirmationP = document.createElement("p");
+//   confirmationP.classList.add("confirmationP");
+//   confirmationP.innerHTML = "Merci pour <br> votre inscription";
+//   const confirmationButton = document.createElement("button");
+//   confirmationButton.classList.add(
+//     "confirmationButton",
+//     "button",
+//     "btn-submit"
+//   );
+//   confirmationButton.textContent = "Fermer";
 
-  modalContent.appendChild(modalConfirmation);
-  modalConfirmation.appendChild(confirmationP);
-  modalConfirmation.appendChild(confirmationButton);
+//   modalContent.appendChild(modalConfirmation);
+//   modalConfirmation.appendChild(confirmationP);
+//   modalConfirmation.appendChild(confirmationButton);
 
-  const closeModalConfirmation = document.querySelector(".confirmation");
+//   const closeModalConfirmation = document.querySelector(".confirmation");
 
-  closeModalConfirmation.addEventListener("click", () => {
-    modalbg.style.display = "none";
-    window.location.reload();
-  });
-}
+//   closeModalConfirmation.addEventListener("click", () => {
+//     modalbg.style.display = "none";
+//     window.location.reload();
+//   });
+// }
