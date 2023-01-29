@@ -50,7 +50,10 @@ function validate() {
     elem.parentNode.appendChild(errorSpan);
   };
 
+  //Event soumission
   validationForm.addEventListener("submit", (e) => {
+    e.stopImmediatePropagation(); //sinon modalConfirmation va s'afficher plusieurs
+
     //Récupérer tous les éléments qui affichent des erreurs et les supprimer après chaque soumission
     const errorElems = validationForm.querySelectorAll(".error ");
     errorElems.forEach((elem) => {
@@ -120,8 +123,8 @@ function validate() {
         //console.log(elem.parentElement);
         if (checked === null) {
           createError(elem, "Veuillez sélectionner un choix.");
-          e.preventDefault();
         }
+        e.preventDefault();
       } else if (elem.getAttribute("id") === "checkbox1") {
         const checkedBox2 = elem.parentElement.querySelector(
           'input[id="checkbox1"]:checked'
@@ -131,14 +134,14 @@ function validate() {
             elem,
             "Vous devez vérifier que vous acceptez les termes et conditions."
           );
-          e.preventDefault();
         }
+        e.preventDefault();
       }
     });
 
     //---------modal confirmation-----------
 
-    //créer l'event modal confirmation
+    //créer modal confirmation
     const modalContent = document.querySelector(".content");
     const modalConfirmation = document.createElement("div");
     modalConfirmation.classList.add("confirmation");
@@ -152,7 +155,6 @@ function validate() {
       "btn-submit"
     );
     confirmationButton.textContent = "Fermer";
-
     modalContent.appendChild(modalConfirmation);
     modalConfirmation.appendChild(confirmationP);
     modalConfirmation.appendChild(confirmationButton);
@@ -162,28 +164,22 @@ function validate() {
     if (isRequired === false) {
       modalbody.style.display = "block";
       modalConfirmation.style.display = "none";
-      //modalConfirmation.remove("div", "p");
       e.preventDefault();
-      e.stopImmediatePropagation();
     } else {
       modalbody.style.display = "none";
       modalConfirmation.style.display = "block";
-      //s'il n'y a pas modalConfirmation ne s'affiche pas
-      e.preventDefault();
-      e.stopImmediatePropagation();
     }
 
-    //event pour fermer modal confirmation
-    //confirmationButton.
-    modalConfirmation.addEventListener("click", (e) => {
+    //Event pour fermer modal confirmation
+    //confirmationButton.modalConfirmation
+    confirmationButton.addEventListener("click", () => {
       modalbg.style.display = "none";
       modalConfirmation.style.display = "none";
       modalbody.style.display = "block";
       validationForm.reset();
-      e.preventDefault();
-      e.stopImmediatePropagation();
     });
   });
+  // return false;
 }
 
-validationForm.addEventListener("click", validate);
+submit.addEventListener("click", validate);
