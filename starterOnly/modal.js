@@ -22,34 +22,21 @@ const quantityElem = document.getElementById("quantity");
 const checkBoxElem = document.querySelectorAll(".required");
 const validationForm = document.querySelector(".validationForm");
 
-//créer un modal de confirmation
-const modalContent = document.querySelector(".content");
-const modalConfirmation = document.createElement("div");
-modalConfirmation.classList.add("confirmation");
-const confirmationP = document.createElement("p");
-confirmationP.classList.add("confirmationP");
-confirmationP.innerHTML = "Merci pour <br> votre inscription";
-const confirmationButton = document.createElement("button");
-confirmationButton.classList.add("confirmationButton", "button", "btn-submit");
-confirmationButton.textContent = "Fermer";
-modalContent.appendChild(modalConfirmation);
-modalConfirmation.appendChild(confirmationP);
-modalConfirmation.appendChild(confirmationButton);
-
 // launch modal form
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-function launchModal() {
+function launchModal(e) {
     modalbg.style.display = "block";
+    //modalConfirmation.style.display = "none";
 }
 
 //----fermer la modale avec close
 closeBtn.addEventListener("click", () => {
     modalbg.style.display = "none";
-    if (modalConfirmation.style.display === "block") {
-        modalConfirmation.style.display = "none";
-        modalbody.style.display = "block";
-        validationForm.reset();
-    }
+    // if (modalConfirmation.style.display === "block") {
+    //     modalConfirmation.style.display = "none";
+    //     modalbody.style.display = "block";
+    //     validationForm.reset();
+    // }
 });
 
 //-------Function validation
@@ -162,7 +149,23 @@ function validate() {
         });
 
         //---------modal confirmation-----------
-
+        //créer un modal de confirmation
+        const modalContent = document.querySelector(".content");
+        const modalConfirmation = document.createElement("div");
+        modalConfirmation.classList.add("confirmation");
+        const confirmationP = document.createElement("p");
+        confirmationP.classList.add("confirmationP");
+        confirmationP.innerHTML = "Merci pour <br> votre inscription";
+        const confirmationButton = document.createElement("button");
+        confirmationButton.classList.add(
+            "confirmationButton",
+            "button",
+            "btn-submit"
+        );
+        confirmationButton.textContent = "Fermer";
+        modalContent.appendChild(modalConfirmation);
+        modalConfirmation.appendChild(confirmationP);
+        modalConfirmation.appendChild(confirmationButton);
         //Vérifier si tous les formulaires sont remplis sans erreur
         const isRequired = validationForm.checkValidity();
         if (isRequired === false) {
@@ -172,6 +175,14 @@ function validate() {
         } else {
             modalbody.style.display = "none";
             modalConfirmation.style.display = "block";
+            //Event pour fermer modal confirmation avec closebtn
+            closeBtn.addEventListener("click", () => {
+                if (modalConfirmation.style.display === "block") {
+                    modalConfirmation.style.display = "none";
+                    modalbody.style.display = "block";
+                    validationForm.reset();
+                }
+            });
         }
 
         //Event pour fermer modal confirmation
