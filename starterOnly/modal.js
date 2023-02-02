@@ -28,7 +28,7 @@ function launchModal(e) {
     modalbg.style.display = "block";
 }
 
-//----fermer la modale avec close
+//close the modal
 closeBtn.addEventListener("click", () => {
     modalbg.style.display = "none";
 });
@@ -37,25 +37,25 @@ closeBtn.addEventListener("click", () => {
 
 function validate(e) {
     e.preventDefault();
-    //fonction pour afficher les  messages d'erreurs
+    //function to display error messages
     const createError = (elem, errorMessage) => {
-        //créer span element
+        //create span element
         const errorSpan = document.createElement("span");
-        //ajouter une class
+        //add class
         errorSpan.classList.add("error");
-        //ajouter message erreurs
+        //add error message
         errorSpan.textContent = errorMessage;
-        //ajouter à l'élément parent
+        //append to parent element
         elem.parentNode.appendChild(errorSpan);
     };
 
-    // Récupérer tous les éléments qui affichent des erreurs et les supprimer après chaque soumission
+    // Collect all items that display errors and delete them after each submission
     const errorElems = validationForm.querySelectorAll(".error ");
     errorElems.forEach((elem) => {
         elem.remove();
     });
 
-    //---------Validation name---------
+    //---------name validation---------
     const firstValue = firstElem.value.trim();
     if (firstValue.length <= 2) {
         createError(
@@ -77,10 +77,10 @@ function validate(e) {
     } else {
         lastElem.classList.remove("inputError");
     }
-    //---------Validation email---------
+    //---------email validation---------
     const pattern =
         /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
-    //test() affichez une erreur et arrêtez de soumettre le formulaire
+    //test() display an error
     if (emailElem.value === "" || !pattern.test(emailElem.value)) {
         createError(emailElem, "Veuillez entrer une adresse mail valide.");
         emailElem.classList.add("inputError");
@@ -88,7 +88,7 @@ function validate(e) {
         emailElem.classList.remove("inputError");
     }
 
-    //---------Validation date de naissance---------
+    //---------Date of Birth validation---------
     if (birthdateElem.value === "") {
         createError(birthdateElem, "Veuillez entrer une date de naissance.");
         birthdateElem.classList.add("inputError");
@@ -103,14 +103,13 @@ function validate(e) {
         quantityElem.classList.remove("inputError");
     }
 
-    //---------Validation checkBox-----------
+    //---------checkbox validation-----------
     checkBoxElem.forEach((elem) => {
         if (elem.getAttribute("type") === "radio") {
-            // Récupère le premier élément de case à cocher sélectionné en fonction de l'élément parent
+            // Gets the first selected checkbox element based on the parent element
             const checked = elem.parentElement.querySelector(
                 'input[type="radio"]:checked'
             );
-            //console.log(elem.parentElement);
             if (checked === null) {
                 createError(elem, "Veuillez sélectionner un choix.");
             }
@@ -127,8 +126,8 @@ function validate(e) {
         }
     });
 
-    //---------modal confirmation-----------
-    //créer un modal de confirmation
+    //---------confirm mode-----------
+    //create a confirmation modal
     const modalContent = document.querySelector(".content");
     const modalConfirmation = document.createElement("div");
     modalConfirmation.classList.add("confirmation");
@@ -145,15 +144,16 @@ function validate(e) {
     modalContent.appendChild(modalConfirmation);
     modalConfirmation.appendChild(confirmationP);
     modalConfirmation.appendChild(confirmationButton);
-    //Vérifier si tous les formulaires sont remplis sans erreur
+
     const isRequired = validationForm.checkValidity();
+    //Check if all forms are completed without error
     if (isRequired === false) {
         modalbody.style.display = "block";
         modalConfirmation.style.display = "none";
     } else {
         modalbody.style.display = "none";
         modalConfirmation.style.display = "block";
-        //Event pour fermer modal confirmation avec closebtn
+        //Event to close modal confirmation with closebtn
         closeBtn.addEventListener("click", () => {
             if (modalConfirmation.style.display === "block") {
                 modalConfirmation.style.display = "none";
@@ -163,7 +163,7 @@ function validate(e) {
         });
     }
 
-    //Event pour fermer modal confirmation
+    //Event to close confirmation modal
     confirmationButton.addEventListener("click", () => {
         modalbg.style.display = "none";
         modalConfirmation.style.display = "none";
