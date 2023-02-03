@@ -68,7 +68,7 @@ function validate(e) {
     }
 
     const lastValue = lastElem.value.trim();
-    if (lastValue.length <= 2) {
+    if (lastValue.length < 2) {
         createError(
             lastElem,
             "Veuillez entrer 2 caractères ou plus pour le champ du Nom."
