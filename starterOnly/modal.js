@@ -57,7 +57,7 @@ function validate(e) {
 
     //---------name validation---------
     const firstValue = firstElem.value.trim();
-    if (firstValue.length <= 2) {
+    if (firstValue.length < 2) {
         createError(
             firstElem,
             "Veuillez entrer 2 caractères ou plus pour le champ du Prénom."
