@@ -36,7 +36,7 @@ closeBtn.addEventListener("click", () => {
 //-------Function validation
 
 function validate(e) {
-    e.preventDefault();
+    e.preventDefault(); //not to send data before validation
     //function to display error messages
     const createError = (elem, errorMessage) => {
         //create span element
@@ -79,8 +79,7 @@ function validate(e) {
     }
     //---------email validation---------
     const pattern =
-        /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]+.[A-Za-z0-9]+$/;
-    //test() display an error
+        /^[a-zA-Z0-9_+-]+(\.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.)+[a-zA-Z]{2,}$/; //test() display an error
     if (emailElem.value === "" || !pattern.test(emailElem.value)) {
         createError(emailElem, "Veuillez entrer une adresse mail valide.");
         emailElem.classList.add("inputError");
@@ -126,7 +125,7 @@ function validate(e) {
         }
     });
 
-    //---------confirm mode-----------
+    //---------confirmation modal-----------
     //create a confirmation modal
     const modalContent = document.querySelector(".content");
     const modalConfirmation = document.createElement("div");
