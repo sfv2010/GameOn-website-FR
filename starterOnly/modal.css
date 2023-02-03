@@ -604,10 +604,22 @@ footer {
         margin: 10px 0px 0px 0px;
     }
     .text-label {
-        font-size: 12px;
+        font-size: 11px;
+    }
+    .checkbox-label,
+    .checkbox2-label {
+        margin-left: 38px;
+        font-size: 11px;
     }
     .checkbox-label {
-        font-size: 12px;
+        font-size: 9px;
+    }
+    .checkbox-label .checkbox-icon,
+    .checkbox2-label .checkbox-icon {
+        width: 18px;
+        height: 18px;
+        left: -27px;
+        top: -2px;
     }
 }
 @media screen and (max-width: 345px) {
