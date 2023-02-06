@@ -24,7 +24,7 @@ const validationForm = document.querySelector(".validationForm");
 
 // launch modal form
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
-function launchModal(e) {
+function launchModal() {
     modalbg.style.display = "block";
 }
 
