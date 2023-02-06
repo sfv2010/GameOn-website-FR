@@ -591,13 +591,14 @@ footer {
         width: 100px;
     }
     .btn-signup {
-        font-size: 0.9em;
+        font-size: 0.7em;
     }
     .hero-img img {
         margin-top: 20px;
     }
     .copyrights {
         margin: 0;
+        font-size: 0.8rem;
     }
     label {
         font-size: 11px;
@@ -620,6 +621,12 @@ footer {
         height: 18px;
         left: -27px;
         top: -2px;
+    }
+    .btn-submit,
+    .btn-signup {
+        margin-top: 10px;
+        font-size: 1rem;
+        padding: 9px 34px;
     }
 }
 @media screen and (max-width: 345px) {
